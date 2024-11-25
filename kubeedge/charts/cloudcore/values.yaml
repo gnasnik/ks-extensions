@@ -133,7 +133,7 @@ controllerManager:
       cpu: 200m
       memory: 1Gi
     requests:
-      cpu: 100m
+      cpu: 100mmosquitto
       memory: 25Mi
       
 kubeEdgeProxy:
@@ -163,3 +163,30 @@ kubeEdgeProxy:
     requests:
       cpu: 100m
       memory: 25Mi
+
+mosquitto:
+  enable: true
+  image:
+    repository: eclipse-mosquitto
+    tag: "1.6.15"
+    pullPolicy: "IfNotPresent"
+    pullSecrets: []
+  labels:
+    k8s-app: eclipse-mosquitto
+    kubeedge: eclipse-mosquitto
+  annotations: {}
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/edge
+                operator: Exists
+  tolerations: []
+  resources:
+    limits:
+      cpu: 200m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 50Mi

@@ -34,7 +34,7 @@ dependencies:
 icon: ./favicon.svg
 installationMode: HostOnly
 images:
-  - docker.io/kubeedge/iptables-manager:vv1.19.0
+  - docker.io/kubeedge/iptables-manager:v1.19.0
   - docker.io/kubeedge/cloudcore:v1.19.0
   - docker.io/kubeedge/controller-manager:v1.19.0
   - docker.io/kubesphere/kubeedge-proxy:v0.4.1
