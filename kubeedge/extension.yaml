@@ -1,7 +1,7 @@
 apiVersion: v1
 name: kubeedge
 namespace: kubeedge
-version: 1.13.1
+version: 1.19.0
 displayName:
   zh: KubeEdge 边缘计算框架
   en: KubeEdge Edge Computing Framework
@@ -34,9 +34,9 @@ dependencies:
 icon: ./favicon.svg
 installationMode: HostOnly
 images:
-  - docker.io/kubeedge/iptables-manager:v1.13.1
-  - docker.io/kubeedge/cloudcore:v1.13.1
-  - docker.io/kubeedge/controller-manager:v1.13.1
+  - docker.io/kubeedge/iptables-manager:vv1.19.0
+  - docker.io/kubeedge/cloudcore:v1.19.0
+  - docker.io/kubeedge/controller-manager:v1.19.0
   - docker.io/kubesphere/kubeedge-proxy:v0.4.1
 maintainers:
   - name: KubeSphere

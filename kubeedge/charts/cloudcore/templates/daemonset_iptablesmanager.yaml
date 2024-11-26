@@ -9,7 +9,6 @@ metadata:
   {{- with .Values.iptablesManager.annotations }}
   annotations: {{- toYaml . | nindent 4 }}
   {{- end }}
-  namespace: {{ template "cloudcore.namespace" . }}
 spec:
   selector:
     matchLabels:
@@ -34,11 +33,13 @@ spec:
       nodeSelector: {{ toYaml . | nindent 8 }}
       {{- end }}
       restartPolicy: Always
-      {{- include "backend.imagePullSecrets" . | nindent 6 }}
+      {{- with .Values.iptablesManager.image.pullSecrets }} 
+      imagePullSecrets: {{ toYaml . | nindent 8 }} 
+      {{- end }}  
       containers:
       - name: iptables-manager
         command: ['iptables-manager']
-        image: {{ template "iptablesManager.image" . }}
+        image: {{ .Values.iptablesManager.image.repository }}:{{ .Values.iptablesManager.image.tag }}
         imagePullPolicy: {{ .Values.iptablesManager.image.pullPolicy }}
         {{- with .Values.iptablesManager.securityContext }}
         securityContext: {{ toYaml . | nindent 10 }}

@@ -9,7 +9,7 @@ metadata:
   annotations: {{- toYaml . | nindent 4 }}
   {{- end }}
   name: kubeedge-controller-manager
-  namespace: {{ template "cloudcore.namespace" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     {{- with .Values.controllerManager.labels }}
@@ -21,10 +21,12 @@ spec:
       labels: {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{- include "backend.imagePullSecrets" . | nindent 6 }}
+      {{- with .Values.controllerManager.image.pullSecrets }}
+      imagePullSecrets: {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: controller-manager
-          image: {{ template "controllerManager.image" . }}
+          image: {{ .Values.controllerManager.image.repository }}:{{ .Values.controllerManager.image.tag }}
           imagePullPolicy: {{ .Values.controllerManager.image.pullPolicy }}
       restartPolicy: Always
       serviceAccountName: controller-manager

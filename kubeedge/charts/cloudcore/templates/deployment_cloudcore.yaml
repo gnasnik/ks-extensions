@@ -8,13 +8,15 @@ metadata:
   labels: {{- toYaml . | nindent 4 }}
   {{- end }}
   name: cloudcore
-  namespace: {{ template "cloudcore.namespace" . }}
 spec:
   replicas: {{ .Values.cloudCore.replicaCount }}
   selector:
     {{- with .Values.cloudCore.labels }}
     matchLabels: {{- toYaml . | nindent 6 }}
     {{- end }}
+  {{- with .Values.cloudCore.strategy }}
+  strategy: {{ toYaml . | nindent 4 }}
+  {{- end }}
   template:
     metadata:
       {{- with .Values.cloudCore.labels }}
@@ -36,10 +38,12 @@ spec:
       tolerations: {{ toYaml . | nindent 8 }}
       {{- end }}
       serviceAccount: cloudcore
-      {{- include "backend.imagePullSecrets" . | nindent 6 }}
+      {{- with .Values.cloudCore.image.pullSecrets }} 
+      imagePullSecrets: {{ toYaml . | nindent 8 }} 
+      {{- end }}  
       containers:
       - name: cloudcore
-        image: {{ template "cloudCore.image" . }}
+        image: {{ .Values.cloudCore.image.repository }}:{{ .Values.cloudCore.image.tag }}
         imagePullPolicy: {{ .Values.cloudCore.image.pullPolicy }}
         ports:
         - containerPort: 10000
